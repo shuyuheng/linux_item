@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SVG.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+  <div class="box">
+<style>
+  body{
+    background-color: pink;
+  }
+  input{
+    display: block;
+    width: 60%;
+    height: 45px;
+    margin: 35px auto;
+    box-sizing: border-box;
+    padding: 8px;;
+  }
+</style>
+  </div>
+  <input type="text" value="张冰雪大傻逼~~">
+</head>
+
+<body>
+  <script>
+//     var draw = SVG().addTo('.box').size(600, 300)
+//     // var rect = draw.rect('100%', '100%').attr({ fill: '#f06' })
+//     // var ellipse = draw.ellipse(150, 100).fill('#f06').move(80, 20)
+//     // var line = draw.line(0, 100, 100, 0).move(20, 20)
+//     // line.stroke({ color: '#f06', width: 10, linecap: 'round' })
+//     var polygon = draw.polygon('50,0 60,40 100,50 60,60 50,100 40,60 0,50 40,40')
+// polygon.fill('#f06').move(20, 20)
+
+
+var input = document.querySelector('input[type=text]')
+var draw = SVG().addTo('.box').viewbox(0, 0, 300, 140)
+var text = draw.text(function(add) {
+	add.tspan( input.value )
+})
+
+textPath = text.path('M10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80')
+
+textPath.animate(1000).ease('<>')
+	.plot('M10 80 C 40 150, 65 150, 95 80 S 150 10, 180 80')
+	.loop(true, true)
+
+input.addEventListener('keyup', updateText(textPath))
+
+function updateText(textPath) {
+	return function() {
+		textPath.tspan(this.value)
+	}				
+}
+  </script>
+</body>
+
+</html>
