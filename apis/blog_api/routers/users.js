@@ -42,6 +42,7 @@ router.post('/', async (req, res, next) => {
 })
 // 用户登录
 router.post('/login', async (req, res, next) => {
+    console.log(res.body.phone)
     // 验证方法
     let flage = regexp([
         {
