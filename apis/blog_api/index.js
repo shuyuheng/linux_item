@@ -11,6 +11,7 @@ app.use(express.static('public'));
 // 0.配置body-parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())   // 允许接收 JSON 格式的数据，前端使用 axios 包调用接口时
 const fs = require('fs')
 // 1. 直接读取 routers 目录下所有的文件
 const routerFiles = fs.readdirSync('./routers')

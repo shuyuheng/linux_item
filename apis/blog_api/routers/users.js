@@ -5,6 +5,7 @@ const { regexp, Jwt_sign, Jwt_verify } = require('../util')
 const db = require('../db')
 // 用户注册
 router.post('/', async (req, res, next) => {
+    console.log(req.body.auth_code)
     // 验证方法
     let flage = regexp([
         {
@@ -15,11 +16,11 @@ router.post('/', async (req, res, next) => {
         {
             value: req.body.password,
             pattern: /^\w{6,12}$/,
-            message: '请输入6-12位的数字字母下划线'
+            message: '请输入6-12位密码'
         },
         {
             value: req.body.auth_code,
-            pattern: /^BK7878$/,
+            pattern: /^SYH-YQY-SYCZ-QZ34$/,
             message: '请填写正确的授权码'
         },
     ])
@@ -55,16 +56,17 @@ router.post('/login', async (req, res, next) => {
         }
     ])
     if (flage !== 1) return next(flage)
-    let resule = await db.queryAsync('SELECT id, phone,username FROM users WHERE phone=? AND password=?', [req.body.phone, req.body.password])
+    let resule = await db.queryAsync('SELECT id, phone,username,head_src FROM users WHERE phone=? AND password=?', [req.body.phone, req.body.password])
     if (!resule) return next('服务器错误')
     if (resule.length != 0) {
         let token = Jwt_sign(resule[0].id)
         res.json({
             ok: 1,
-            token
+            token,
+            head_src:resule[0].head_src
         })
     } else {
-        next('账号或用户名错误')
+        next('账号或密码错误')
     }
 })
 // 用户修改
