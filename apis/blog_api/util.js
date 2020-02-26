@@ -55,9 +55,10 @@ var storage = multer.diskStorage({
                 fs.mkdir('./public/upload_files', (err) => { })
             }
             // 获取今天的日期
-            let date = new Date().toLocaleDateString()
+            let date = new Date()
+            let str = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
             // 判断有没有今天上传的文件
-            let dir = './public/upload_files/' + date
+            let dir = './public/upload_files/' + str
             fs.access(dir, fs.constants.F_OK, (err) => {
                 if (err) {
                     fs.mkdir(dir, (err) => { })
@@ -72,7 +73,7 @@ var storage = multer.diskStorage({
     filename: function (req, file, cb) {
         let dir = Date.now().toString() + file.originalname.match(/\.\w*$/g)[0]
         // 拼接具体相对路径
-        req.dir += ('/'+dir)
+        req.dir += ('/' + dir)
         cb(null, dir)
     }
 })
@@ -87,10 +88,10 @@ const upload = multer({
         // 文件类型
         if (['image/png', 'image/jpeg', 'image/jpg', 'image/gif'].indexOf(file.mimetype) !== -1)
             cb(null, true)
-        else{
-              cb(new Error('不允许上传的类型'))
+        else {
+            cb(new Error('不允许上传的类型'))
         }
-          
+
     }
 })
 module.exports = {
