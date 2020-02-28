@@ -128,8 +128,6 @@ router.put('/', Jwt_verify, async (req, res, next) => {
     let userId = req.userId
     let obj = {}
     if (req.body.password == undefined && req.body.username == undefined) return next('修改无意义')
-    // 如果修改密码
-    if (req.body.password != undefined) {
         // 验证方法---------------------------
         let flage = regexp([
             {
@@ -146,23 +144,23 @@ router.put('/', Jwt_verify, async (req, res, next) => {
         if (flage !== 1) return next(flage)
         // -------------------------------------
         obj.password = req.body.new_password
-        // 验证原密码是否一样
-        let resule = await db.queryAsync('SELECT * FROM users WHERE id=? AND password=?', [userId, req.body.password])
-        if (!resule) return next('服务器错误')
-        if (resule.length !== 1) return next('密码错误')
-    }
     // 如果修改昵称
     if (req.body.username != undefined) {
         // 验证方法---------------------------
         let flage = regexp([
             {
                 value: req.body.username,
-                pattern: /^.{4,6}$/,
-                message: '用户名位4-6任意字符'
+                pattern: /^.{3,16}$/,
+                message: '用户名位3-16任意字符'
             }
         ])
         if (flage !== 1) return next(flage)
         // -------------------------------------
+        // 判断该用户名是否已经注册
+        let resule1 = await db.queryAsync(`SELECT * FROM users WHERE username=? AND id != ${userId}`, req.body.username)
+        if (resule1.length != 0) {
+            return next('该用户名已存在')
+        }
         obj.username = req.body.username
     }
     // 如果修改头像
@@ -183,6 +181,16 @@ router.put('/', Jwt_verify, async (req, res, next) => {
     res.json({
         ok: 1,
         msg: '修改成功'
+    })
+})
+// 获取用户信息
+router.post('/getuserbytoken', Jwt_verify, async (req, res, next) => {
+    let userId = req.userId
+    // 查询信息
+    let resule = await db.queryAsync('SELECT * FROM users WHERE id=?', userId)
+    if (!resule) return next('服务器错误')
+    res.json({
+        loginuser: resule[0]
     })
 })
 
