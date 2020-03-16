@@ -5,7 +5,7 @@ router.get('/:id',async (req,res,next) => {
     let id = req.params.id
     // 通过这个id获取个人简介
     let resule = await db.queryAsync('SELECT content FROM resume WHERE user_id=?',id)
-    if (!resule) return next('服务器错误')
+    if (!resule || resule.length == 0) return next('服务器错误')
     res.json({
         ok:1,
         content:resule[0].content

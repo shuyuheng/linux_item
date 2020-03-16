@@ -32,7 +32,7 @@ router.post('/', Jwt_verify, async (req, res, next) => {
     let resule = await db.queryAsync('INSERT INTO blogs SET ?', req.body)
     if (!resule) return next('服务器错误')
     let addid = resule.insertId;
-    let resule1 = await db.queryAsync(`INSERT INTO blogx (id,content) VALUES(${addid},"?")`,content)
+    let resule1 = await db.queryAsync(`INSERT INTO blogx (id,content) VALUES(${addid},?)`,content)
     if (!resule1) return next('服务器错误')
     res.json({
         ok:1,

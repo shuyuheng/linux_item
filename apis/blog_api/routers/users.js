@@ -193,5 +193,24 @@ router.post('/getuserbytoken', Jwt_verify, async (req, res, next) => {
         loginuser: resule[0]
     })
 })
+// 查询用户
+router.get('/',async (req,res,next) => {
+    let sql = ""
+    let name = req.query.username
+    let phone = req.query.phone
+    if(name) sql =  `SELECT * FROM users WHERE username LIKE "%${name}%"`
+    if(phone) sql =  `SELECT * FROM users WHERE phone LIKE "%${phone}%"`
+      // 判断该手机号是否已经注册
+      let resule = await db.queryAsync(sql,[phone,name]);
+      if (!resule) return next('服务器错误')
+      res.json({
+          ok:1,
+          data:resule
+      })
+})
 
+
+
+//   '极简人,生活-就是求知,简约而有内涵'
+//   博客
 module.exports = router
