@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link rel=icon href=/favicon.ico>
+    <title>components</title>
+    <link href=./css/app.160f0631.css rel=preload as=style>
+    <link href=./js/app.ba76b0c3.js rel=preload as=script>
+    <link href=./js/chunk-vendors.3205fc52.js rel=preload as=script>
+    <link href=./css/app.160f0631.css rel=stylesheet>
+</head>
+
+<body><noscript><strong>We're sorry but components doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong></noscript>
+    <div id=app></div>
+    <a href="./Steep.zip">下载组件</a>
+    <p>
+        <h3>使用方法：</h3>
+        <div style="background-color: rgb(153, 150, 150);font-size: 22px;">
+            <xmp>
+                attribute  --属性
+    "width"   轮播图宽度 默认700px
+    "height"  轮播图高度 默认400px
+    "type"    轮播图类型 infinite[无限] default  fade[淡入淡出]   stack 层叠
+    "time"    动画时间  1s/2s/0.5s
+    "isImg"   是否显示图片 默认显示   true/false
+    "isIndicator" 是否显示指示器   true/false
+    "isBtn"     是否显示左右按钮
+    "loop"    是否循环播放默认false   true/false
+    "loopTime" 循环播放间隔时间 2000/1000/Number
+    "bottomBtnClass"  定义小按钮
+  slot   --具名插槽
+    "left-btn"   左边的按钮
+    "right-btn"  右边的按钮
+
+==============================
+使用方法
+
+      <steep :data="images" type="default">
+        <div
+        style="color:red;font-size:45px"
+        :slot="'steep_item'+i"
+        v-for="(item,i) in images"
+        :key="i"
+        >内容：{{i}}</div>
+      </steep>
+基础数据结构
+// 轮播图数据
+      images: [
+        {
+          src: require("./assets/images/aa.jpg")
+        },
+        {
+          src: require("./assets/images/bb.jpg")
+        },
+        {
+          src: require("./assets/images/cc.jpg")
+        },
+        {
+          src: require("./assets/images/dd.jpg")
+        },
+        {
+          src: require("./assets/images/ee.jpg")
+        },
+        {
+          src: require("./assets/images/ff.jpg")
+        }
+      ]
+        </div>
+            </xmp>
+    </p>
+    <script src=./js/chunk-vendors.3205fc52.js></script>
+    <script src=./js/app.ba76b0c3.js></script>
+</body>
+
+</html>
